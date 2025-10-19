@@ -1,0 +1,28 @@
+# Core dependencies
+streamlit>=1.28.0
+qdrant-client>=1.7.0
+openai>=1.0.0
+
+# Data processing and web scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+tqdm>=4.66.0
+pathlib2>=2.3.7
+
+# HTML parsing and document processing
+unstructured>=0.10.0
+unstructured[html]>=0.10.0
+
+# Async processing
+asyncio
+aiohttp>=3.8.0
+
+# Fast embedding support
+fastembed>=0.2.0
+
+# Jupyter notebook support
+ipywidgets>=8.0.0
+jupyter>=1.0.0
+
+# Standard library extensions
+typing-extensions>=4.7.0

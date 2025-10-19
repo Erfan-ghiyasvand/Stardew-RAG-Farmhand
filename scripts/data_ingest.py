@@ -13,8 +13,8 @@ def load_json(path: str) -> List[Dict[str, Any]]:
 
 
 def load_data_with_content_types(
-    texts_path: str = "data/summarized_texts.json",
-    tables_path: str = "data/summarized_tables.json"
+    texts_path: str = "../data/summarized_texts.json",
+    tables_path: str = "../data/summarized_tables.json"
 ) -> tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     # Load the data
     texts = load_json(texts_path)
@@ -33,8 +33,8 @@ def load_data_with_content_types(
 
 
 def data_ingestion(
-    texts_path: str = "data/summarized_texts.json",
-    tables_path: str = "data/summarized_tables.json"
+    texts_path: str = "../data/summarized_texts.json",
+    tables_path: str = "../data/summarized_tables.json"
 ) -> tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     return load_data_with_content_types(texts_path, tables_path)
 

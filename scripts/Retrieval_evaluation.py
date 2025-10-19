@@ -107,3 +107,5 @@ def evaluate_search_functions(search_functions, k=5, sampleNum=5):
         all_results[name] = {"MRR": mrr, "HitRate": hit_rate}
 
     return all_results
+
+    
