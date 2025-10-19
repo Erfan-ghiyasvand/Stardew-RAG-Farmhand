@@ -136,7 +136,7 @@ The project implements a fully automated ingestion pipeline:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/Stardew-Valley-Farmhand.git
+   git clone https://github.com/Erfan-ghiyasvand/Stardew-RAG-Farmhand
    cd Stardew-Valley-Farmhand
    ```
 
