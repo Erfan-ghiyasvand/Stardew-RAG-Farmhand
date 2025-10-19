@@ -1,4 +1,4 @@
-# 🌾🐄🐮 Stardew Valley Farmhand - RAG Assistant
+# 🌾 Stardew Valley Farmhand - RAG Assistant
 
 A comprehensive Retrieval-Augmented Generation (RAG) application designed to help Stardew Valley players find accurate information from the game's wiki. This project demonstrates RAG techniques including hybrid search, multiple retrieval strategies, and comprehensive evaluation methodologies.
 
