@@ -8,6 +8,7 @@ requests>=2.31.0
 beautifulsoup4>=4.12.0
 tqdm>=4.66.0
 pathlib2>=2.3.7
+pandas>=1.5.0
 
 # HTML parsing and document processing
 unstructured>=0.10.0

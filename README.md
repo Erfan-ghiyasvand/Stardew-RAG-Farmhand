@@ -185,12 +185,16 @@ The project implements a fully automated ingestion pipeline:
 3. Select your preferred AI model
 4. Click "Get Answer" for instant results
 
+![Simple Query Interface](pictures/Simple_query.png)
+
 ### Model Comparison
 1. Navigate to the "Model Comparison" tab
 2. Enter your question
 3. Select multiple models to compare
 4. Choose a judge model for evaluation
 5. Click "Compare Models" for detailed analysis
+
+![Model Comparison Interface](pictures/Model_comparison.png)
 
 ### Example Queries
 - "What crops should I plant in spring for maximum profit?"
@@ -213,6 +217,8 @@ The project implements a fully automated ingestion pipeline:
 
 ## 📊 Evaluation Results
 
+![Retrieval Evaluation Results](pictures/Retrieval_evaluation.png)
+
 ### Retrieval Performance
 - **MRR@5**: Mean Reciprocal Rank across top-5 results
 - **Hit Rate@5**: Percentage of queries with correct answers in top-5
@@ -224,17 +230,19 @@ The project implements a fully automated ingestion pipeline:
 - **Model Comparison**: Comprehensive evaluation of different LLM approaches
 
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 🙏 Acknowledgments
 
 - **Stardew Valley Wiki** (stardewvalleywiki.com): Comprehensive game information source
 - **Qdrant**: Vector database for efficient similarity search
 - **OpenAI**: Language models for answer generation
 - **Streamlit**: User interface framework
-- **LLM Zoomcamp**: Course inspiration and evaluation criteria
+- **[DataTalksClub](https://datatalks.club/)**: For the LLM Zoomcamp course
+
+### Special Thanks
+
+We extend our sincere gratitude to **Alexey Grigorev** and the **DataTalks Club** team for their expert guidance, valuable Slack support, and for creating this exceptional learning opportunity through the LLM course.
+
+We also want to thank the **Qdrant team** for their invaluable support and excellent vector database technology that made this project possible.
 
 ## 📄 Data Sources & Licensing
 
@@ -252,3 +260,7 @@ This project uses content from the [Stardew Valley Wiki](https://stardewvalleywi
 
 
 **Note**: This project is part of the LLM Zoomcamp course by DataTalksClub and demonstrates advanced RAG techniques for real-world applications.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

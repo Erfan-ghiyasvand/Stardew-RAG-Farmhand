@@ -5,8 +5,9 @@ import os
 # Add the scripts directory to the path so we can import RAG_pipeline
 sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
 
-from RAG_pipeline import rag
+from RAG_pipeline import rag, multi_stage_search, rrf_search
 from llm_eval import llm_eval
+from Retrieval_evaluation import evaluate_search_functions
 
 # Configure the page
 st.set_page_config(
@@ -20,7 +21,7 @@ st.title("🌾 Stardew Valley RAG Assistant")
 st.markdown("Ask questions about Stardew Valley and get answers based on the game's wiki!")
 
 # Create tabs for different functionalities
-tab1, tab2 = st.tabs(["Single Model Query", "Model Comparison"])
+tab1, tab2, tab3 = st.tabs(["Single Model Query", "Model Comparison", "Retrieval Evaluation"])
 
 with tab1:
     # Create two columns for better layout
@@ -142,6 +143,131 @@ with tab2:
         
         else:
             st.info("Enter a question, select models, and click 'Compare Models' to get started!")
+
+with tab3:
+    st.header("🔍 Retrieval Evaluation")
+    st.markdown("Evaluate different search strategies using MRR (Mean Reciprocal Rank) and Hit Rate metrics.")
+    
+    # Create two columns for evaluation
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        st.subheader("Configuration")
+        
+        # Search function selection
+        search_functions = {
+            "RRF Search": ("rrf_search", rrf_search),
+            "Multi-stage Search": ("multi_stage_search", multi_stage_search)
+        }
+        
+        selected_functions = st.multiselect(
+            "Select search functions to evaluate:",
+            list(search_functions.keys()),
+            default=["RRF Search"],
+            key="selected_search_functions"
+        )
+        
+        # Evaluation parameters
+        st.subheader("Evaluation Parameters")
+        
+        sample_size = st.number_input(
+            "Number of questions to generate:",
+            min_value=1,
+            max_value=50,
+            value=5,
+            help="More questions provide more reliable results but take longer to process"
+        )
+        
+        k_value = st.number_input(
+            "Top-K for evaluation:",
+            min_value=1,
+            max_value=20,
+            value=5,
+            help="Evaluate retrieval performance in top-K results"
+        )
+        
+        # Submit button for evaluation
+        eval_button = st.button("Run Retrieval Evaluation", type="primary", key="eval_button")
+    
+    with col2:
+        st.subheader("Results")
+        
+        if eval_button and selected_functions:
+            with st.spinner("Running retrieval evaluation... This may take a few minutes."):
+                try:
+                    # Prepare search functions for evaluation
+                    functions_to_eval = []
+                    for func_name in selected_functions:
+                        name, func = search_functions[func_name]
+                        functions_to_eval.append((name, func))
+                    
+                    # Run evaluation
+                    results = evaluate_search_functions(
+                        functions_to_eval, 
+                        k=k_value, 
+                        sampleNum=sample_size
+                    )
+                    
+                    # Check if evaluation failed
+                    if not results:
+                        st.error("Evaluation failed - no data available or error occurred. Check the console for details.")
+                        st.stop()
+                    
+                    # Display results
+                    st.success("Retrieval evaluation completed!")
+                    
+                    # Create metrics display
+                    st.markdown("### Evaluation Results:")
+                    
+                    # Create a results table
+                    import pandas as pd
+                    
+                    results_data = []
+                    for func_name, metrics in results.items():
+                        results_data.append({
+                            "Search Function": func_name,
+                            f"MRR@{k_value}": f"{metrics['MRR']:.3f}",
+                            f"Hit Rate@{k_value}": f"{metrics['HitRate']:.3f}"
+                        })
+                    
+                    df = pd.DataFrame(results_data)
+                    st.dataframe(df, use_container_width=True)
+                    
+                    # Add some interpretation
+                    st.markdown("### Interpretation:")
+                    st.info("""
+                    - **MRR (Mean Reciprocal Rank)**: Average of reciprocal ranks of the first relevant document
+                    - **Hit Rate**: Percentage of queries where at least one relevant document was found in top-K
+                    - Higher values indicate better retrieval performance
+                    """)
+                    
+                    # Find best performing function
+                    best_mrr = max(results.items(), key=lambda x: x[1]['MRR'])
+                    best_hitrate = max(results.items(), key=lambda x: x[1]['HitRate'])
+                    
+                    col_mrr, col_hit = st.columns(2)
+                    with col_mrr:
+                        st.metric(
+                            "Best MRR", 
+                            f"{best_mrr[1]['MRR']:.3f}",
+                            f"{best_mrr[0]}"
+                        )
+                    with col_hit:
+                        st.metric(
+                            "Best Hit Rate", 
+                            f"{best_hitrate[1]['HitRate']:.3f}",
+                            f"{best_hitrate[0]}"
+                        )
+                    
+                except Exception as e:
+                    st.error(f"An error occurred during evaluation: {str(e)}")
+                    st.info("Make sure your Qdrant server is running on localhost:6333 and your OpenAI API key is set.")
+        
+        elif eval_button and not selected_functions:
+            st.warning("Please select at least one search function to evaluate!")
+        
+        else:
+            st.info("Select search functions and click 'Run Retrieval Evaluation' to get started!")
 
 # Footer
 st.markdown("---")

@@ -32,6 +32,15 @@ def question_generation(knowledge_base , sampleNum = 10):
 
     evaluation_questions = []
 
+    # Check if we have enough data
+    if len(knowledge_base) < sampleNum:
+        print(f"WARNING: Requested {sampleNum} samples but only {len(knowledge_base)} available. Using all available data.")
+        sampleNum = len(knowledge_base)
+    
+    if sampleNum <= 0:
+        print("ERROR: No data available for sampling.")
+        return evaluation_questions
+
     sample_kb= random.sample(knowledge_base, sampleNum)
 
     for kb in sample_kb:
@@ -73,8 +82,14 @@ def compute_mrr_and_hitrate(results, k=5):
 
 def evaluate_search_functions(search_functions, k=5, sampleNum=5):
     knowledge_base, _ = data_ingestion()
+    
+    print(f"DEBUG: Loaded knowledge base with {len(knowledge_base)} entries")
+    if len(knowledge_base) == 0:
+        print("ERROR: No data loaded from knowledge base!")
+        return {}
 
     evaluation_dataset = question_generation(knowledge_base, sampleNum)
+    print(f"DEBUG: Generated {len(evaluation_dataset)} evaluation questions")
     all_results = {}
 
     for item in search_functions:
