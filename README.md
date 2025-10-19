@@ -150,29 +150,17 @@ The project implements a fully automated ingestion pipeline:
    pip install -r requirements.txt
    ```
 
-4. **Start services with Docker Compose**:
-   ```bash
-   docker-compose up -d
-   ```
-
-5. **Run the application**:
-   ```bash
-   streamlit run app.py
-   ```
-
-### Manual Setup (Alternative)
-
-1. **Start Qdrant server**:
+4. **Start Qdrant server**:
    ```bash
    docker run -p 6333:6333 qdrant/qdrant
    ```
 
-2. **Set up the vector database**:
+5. **Set up the vector database**:
    ```bash
    python scripts/vector_store.py
    ```
 
-3. **Run the Streamlit app**:
+6. **Run the Streamlit app**:
    ```bash
    streamlit run app.py
    ```
